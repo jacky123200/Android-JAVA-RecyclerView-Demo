@@ -67,10 +67,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         //ViewHolder class 主要是用於連接layout (每行item)
         public TextView mTextView;
         public ImageView mImageView;
+        public View background;
+        public ImageView done;
+        public ImageView schedule;
+        public View item;
+
         public MyViewHolder(View v) {
             super(v);
             mTextView = (TextView)v.findViewById(R.id.textView);
             mImageView = (ImageView)v.findViewById(R.id.imageView);
+            background = v.findViewById(R.id.background);
+            done = (ImageView) v.findViewById(R.id.iv_done);
+            schedule = (ImageView)v.findViewById(R.id.iv_schedule);
+            item = v.findViewById(R.id.viewItem);
         }
     }
 }

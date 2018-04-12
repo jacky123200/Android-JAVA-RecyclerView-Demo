@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements MyItemTouchListen
         mRecyclerView.setAdapter(mAdapter);
     }
 
-
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         mAdapter.removeItem(viewHolder.getAdapterPosition());
