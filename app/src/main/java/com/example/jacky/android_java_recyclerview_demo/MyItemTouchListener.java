@@ -4,7 +4,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
+
+import java.io.Console;
+import java.util.logging.ConsoleHandler;
 
 /**
  * Created by jacky on 4/12/18.
@@ -36,16 +40,22 @@ public class MyItemTouchListener extends ItemTouchHelper.SimpleCallback{
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         //我們可以在這個方法內實現我們自定義的交互規則或者自定義的動畫效果。
-        getDefaultUIUtil().onDraw(c, recyclerView, ((MyAdapter.MyViewHolder)viewHolder).item, dX, dY, actionState, isCurrentlyActive);
-        if (dX > 0) { // 向左滑动是的提示
-            ((MyAdapter.MyViewHolder) viewHolder).background.setBackgroundResource(R.color.colorDone);
-            ((MyAdapter.MyViewHolder) viewHolder).done.setVisibility(View.VISIBLE);
-            ((MyAdapter.MyViewHolder) viewHolder).schedule.setVisibility(View.GONE);
+        if(actionState==ItemTouchHelper.ACTION_STATE_SWIPE) {
+            getDefaultUIUtil().onDraw(c, recyclerView, ((MyAdapter.MyViewHolder) viewHolder).item, dX, dY, actionState, isCurrentlyActive);
+            if (dX > 0) { // 向左滑动是的提示
+                ((MyAdapter.MyViewHolder) viewHolder).background.setBackgroundResource(R.color.colorDone);
+                ((MyAdapter.MyViewHolder) viewHolder).done.setVisibility(View.VISIBLE);
+                ((MyAdapter.MyViewHolder) viewHolder).schedule.setVisibility(View.GONE);
+            }
+            if (dX < 0) { // 向右滑动时的提示
+                ((MyAdapter.MyViewHolder) viewHolder).background.setBackgroundResource(R.color.colorSchedule);
+                ((MyAdapter.MyViewHolder) viewHolder).schedule.setVisibility(View.VISIBLE);
+                ((MyAdapter.MyViewHolder) viewHolder).done.setVisibility(View.GONE);
+            }
         }
-        if (dX < 0) { // 向右滑动时的提示
-            ((MyAdapter.MyViewHolder) viewHolder).background.setBackgroundResource(R.color.colorSchedule);
-            ((MyAdapter.MyViewHolder) viewHolder).schedule.setVisibility(View.VISIBLE);
-            ((MyAdapter.MyViewHolder) viewHolder).done.setVisibility(View.GONE);
+        else if(actionState==ItemTouchHelper.ACTION_STATE_DRAG)
+        {
+            getDefaultUIUtil().onDraw(c, recyclerView, ((MyAdapter.MyViewHolder) viewHolder).background, dX, dY, actionState, isCurrentlyActive);
         }
     }
 
